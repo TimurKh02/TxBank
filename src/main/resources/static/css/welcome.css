@@ -1,0 +1,255 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background: linear-gradient(to bottom right, #ffffff, #f5c6cb, #d1a7d4, #b0b0b0);
+}
+
+.header, .footer {
+	width: 100%;
+	height: 30px;
+	background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%,
+		rgba(0, 0, 0, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+	position: relative;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	height: 40px;
+}
+
+.footer-text {
+	color: white;
+	text-align: center;
+	font-size: 12px;
+	line-height: 40px;
+	margin: 0;
+	padding: 0 10px;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	padding: 20px;
+	min-height: 100vh;
+	box-sizing: border-box;
+	justify-content: space-around;
+	gap: 20px
+}
+
+.navbar {
+	background-color: #f5f6fa;
+	padding: 15px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 10px;
+	margin: 20px auto;
+	width: 86%;
+	height: 40px;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.navbar-left, .navbar-right {
+	display: flex;
+	align-items: center;
+}
+
+.logo {
+	font-size: 24px;
+	font-weight: bold;
+	color: #1a1aff;
+	margin-right: 40px;
+	text-decoration: none;
+}
+
+.nav-links, .nav-icons {
+	list-style: none;
+	display: flex;
+}
+
+.nav-links li, .nav-icons li {
+	margin-right: 20px;
+}
+
+.nav-icons li {
+	margin-right: 15px;
+}
+
+.nav-links a, .nav-icons a {
+	text-decoration: none;
+	color: #333;
+	font-size: 16px;
+}
+
+.nav-icons a img {
+	width: 20px;
+	height: 20px;
+}
+
+.login-btn {
+	background-color: #007bff;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 20px;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+	background-color: #0000e6;
+}
+
+.containerOne {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.info-osnova {
+	background: url('/images/pexelsBankOne.jpg') no-repeat center center;
+	background-size: cover;
+	/* Изображение будет растягиваться, чтобы полностью покрыть блок */
+	border-radius: 25px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	width: 100%;
+	width: 49vw;
+	height: 45vh;
+	/* Можно задать фиксированную высоту или использовать другие способы, чтобы размер блока был адаптивным */
+	margin-bottom: 20px;
+	margin: 13vh 0 2vh 4vw;
+	transition: transform 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+.info-osnova:hover {
+	transform: scale(1.02); /* Увеличение при наведении */
+}
+
+.info-window {
+	border-radius: 25px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 40vw;
+	height: 23vh;
+	margin: 2vh 0 0 3vw;
+}
+
+.info, .infoOne, .infoTwo {
+	flex: 1;
+	min-width: 16vw;
+	height: 100%;
+	margin: 15px;
+	border-radius: 25px;
+	padding: 10px;
+	box-sizing: border-box;
+	transition: transform 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+.info:hover {
+	transform: scale(1.02);
+}
+
+.infoOne:hover {
+	transform: scale(1.02);
+}
+
+.infoTwo:hover {
+	transform: scale(1.02);
+}
+
+.info {
+	background: url('/images/pexels.jpg') no-repeat center center;
+	background-size: cover;
+}
+
+.infoOne {
+	background: url('/images/pexelsBankTwo.jpg') no-repeat center center;
+	background-size: cover;
+}
+
+.infoTwo {
+	background: url('/images/photoinvitefriends.png') no-repeat center
+		center;
+	background-size: cover;
+}
+
+.containertwo {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.info-animation {
+	background: url('/images/pexelsBank.jpg') no-repeat center center;
+	background-size: cover;
+	border-radius: 25px;
+	width: 100%;
+	width: 31vw;
+	padding: 20px;
+	height: 20vh;
+	margin: 13vh 4.5vw 4vh 1vw;
+	transition: transform 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+.info-animation:hover {
+	transform: scale(1.02);
+}
+
+.info-animation2 {
+	background: white;
+	border-radius: 25px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 20px 10px;
+	width: 100%;
+	width: 32vw;
+	height: 13vw;
+	margin: 4vh 4.5vw 0 1vw;
+}
+
+.info-containerTwo {
+	background: linear-gradient(to right, #ffffff, #f5c6cb, #d1a7d4, #b0b0b0);
+}
+
+h2 {
+	margin-top: 0;
+	font-size: 1.5vw;
+}
+
+p {
+	margin: 15px 0;
+	font-size: 0.8vw;
+}
+
+ul {
+	margin: 15px 0;
+	font-size: 0.7vw;
+}
+
+.button {
+	padding: 10px 20px;
+	margin: 5px;
+	color: white;
+	background-color: #007bff;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+	height: 10%;
+}
+
+.button:hover {
+	background-color: #0056b3;
+}

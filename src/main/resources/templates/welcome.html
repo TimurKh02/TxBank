@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>TxBank</title>
+<link rel="stylesheet" href="/css/welcome.css">
+</head>
+<body>
+
+	<header>
+		<nav class="navbar">
+			<div class="navbar-left">
+				<a href="#" class="logo">TxBank</a>
+				<ul class="nav-links">
+					<li><a href="#">Private individuals</a></li>
+					<li><a href="#">Business</a></li>
+					<li><a href="#">Additionally</a></li>
+					<li><a href="#">TxBank Club</a></li>
+				</ul>
+			</div>
+			<div class="navbar-right">
+				<ul class="nav-icons">
+					<li><a href="#"><img src="/images/icon1.png" alt="Search"></a></li>
+					<li><a href="#"><img src="/images/icon2.png"
+							alt="Location"></a></li>
+					<li><a href="#"><img src="/images/icon3.png"
+							alt="Document"></a></li>
+				</ul>
+				<!-- <a href="login" class="login-btn">Login</a> -->
+				<a th:if="${isLoggedIn}" th:href="@{/myProfile}"
+					th:text="'My Cabinet'" class="login-btn"></a> <a
+					th:if="${!isLoggedIn}" th:href="@{/login}" th:text="'Login'"
+					class="login-btn"></a>
+			</div>
+		</nav>
+	</header>
+
+	<!-- Основной контейнер для контента -->
+	<div class="container">
+
+		<div class="containerOne">
+
+			<div class="info-osnova" onclick="location.href='/infoWindow';">
+				<h2>Online Banking</h2>
+				<ul>
+					<li><strong>Online Banking:</strong> Access and manage your
+						accounts anytime, anywhere with our secure and user-friendly
+						online platform.</li>
+					<li><strong>Investment Options:</strong> Discover diverse
+						investment opportunities to enhance your financial growth.</li>
+					<li><strong>Personal Loans:</strong> Tailored loan solutions
+						designed to meet your individual needs and financial goals.</li>
+					<li><strong>Credit Cards:</strong> Enjoy convenient credit
+						options with various rewards and exclusive benefits.</li>
+					<li><strong>24/7 Support:</strong> Our dedicated team is here
+						to assist you around the clock with any queries or issues.</li>
+				</ul>
+			</div>
+
+
+			<div class="info-window" onclick="location.href='/infoWindow';">
+
+				<div class="info">
+					<h2>Інвестуй у своє майбутьнє</h2>
+					<p>At TxBank, we offer a range of services designed to meet
+						your financial needs:</p>
+				</div>
+
+				<div class="infoOne" onclick="location.href='/infoWindow';">
+					<h2>Запроси свого друга</h2>
+					<p>At TxBank, we offer a range of services designed to meet
+						your financial needs:</p>
+				</div>
+
+				<div class="infoTwo" onclick="location.href='/infoWindow';">
+					<h2>Налаштування</h2>
+					<p>At TxBank, we offer a range of services designed to meet
+						your financial needs:</p>
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="containerTwo">
+
+			<div class="info-animation" onclick="location.href='/infoWindow';">
+				<h2>Про наш Банк</h2>
+				<p>At TxBank, we offer a range of services designed to meet your
+					financial needs:</p>
+			</div>
+
+			<div class="info-animation2">
+				<h2>Welcome to TxBank</h2>
+				<p>TxBank – Your Trusted Financial Partner. At TxBank, we
+					understand the importance of effective financial management. Our
+					modern banking solutions make it easy and convenient for you to
+					achieve your financial goals. We offer:</p>
+				<ul>
+					<li><strong>Efficient Account Management:</strong> Access and
+						manage your accounts anytime, anywhere.</li>
+					<li><strong>Secure Transactions:</strong> High-level security
+						for all your transactions.</li>
+					<li><strong>Support and Assistance:</strong> Our team is ready
+						to help with any questions related to your banking services.</li>
+				</ul>
+
+				<form th:if="${isLoggedIn}" th:action="@{/logout}" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}"
+						th:value="${_csrf.token}" />
+					<button type="submit" class="button">Logout</button>
+				</form>
+				<a th:if="${!isLoggedIn}" th:href="@{/register}"
+					th:text="'Register'" class="button"></a>
+			</div>
+		</div>
+
+	</div>
+	<!-- Нижняя линия с копирайтом -->
+	<div class="footer">
+		<p class="footer-text">© 2024 TxBank: Universal Bank (Visa,
+			Mastercard, PayPal)</p>
+	</div>
+</body>
+</html>
