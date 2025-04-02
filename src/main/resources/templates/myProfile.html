@@ -115,9 +115,14 @@
 					<div>
 						<button type="submit" class="btn btn-primary">Розрахувати</button>
 					</div>
+				</form>
+				<form th:action="@{/getCreditMoney}" method="post"
+					id="creditSubmitForm">
 					<div class="credit-button">
-						<button type="button" class="btn btn-primary">Взяти гроші
-							в кредит</button>
+						<input type="hidden" name="amountCredit" id="hiddenAmountCredit" />
+						<input type="hidden" name="clientMonth" id="hiddenClientMonth" />
+						<button type="button" class="btn btn-primary" id="openModalButton">Взяти
+							гроші в кредит</button>
 					</div>
 				</form>
 				<hr>
@@ -141,6 +146,30 @@
 				</ul>
 			</div>
 
+			<div class="modal" id="confirmationModal" tabindex="-1" role="dialog"
+				style="display: none;">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Підтвердження</h5>
+							<button type="button" class="close" aria-label="Close"
+								onclick="closeModal()">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>Впевнені що, ви хочете взяти кредит</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								onclick="closeModal()">Ні, відмінити</button>
+							<button type="button" class="btn btn-primary"
+								onclick="confirmCredit()">Так, погоджуюсь</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<script
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 			<script>
@@ -157,12 +186,35 @@
 				                $("#yearResult").text(response.yearResult);
 				                $("#monthResult").text(response.monthResult);
 				                $("#dayResult").text(response.dayResult);
+				              	
+				                $("#hiddenAmountCredit").val(response.amountCredit);
+				                $("#hiddenClientMonth").val(response.clientMonth);
+
 				            },
 				            error: function(xhr, status, error) {
 				                console.error("Error occurred: ", error);
 				            }
 				        });
 				    });
+				 // Управление модальным окном
+				    const modal = document.getElementById('confirmationModal');
+				    const form = document.getElementById('creditSubmitForm');
+
+				    // Открыть модальное окно
+				    $("#openModalButton").on("click", function() {
+				        modal.style.display = 'block';
+				    });
+
+				    // Закрыть модальное окно
+				    window.closeModal = function() {
+				        modal.style.display = 'none';
+				    };
+
+				    // Подтвердить и отправить форму
+				    window.confirmCredit = function() {
+				        modal.style.display = 'none';
+				        form.submit(); // Отправляем форму
+				    };
 				});
 			</script>
 

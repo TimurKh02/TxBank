@@ -7,7 +7,6 @@ import com.example.txbank.dto.BalanceResponse;
 import com.example.txbank.dto.UserBankInfoResponse;
 import com.example.txbank.dto.UserBankTransactionResponse;
 import com.example.txbank.dto.UserBankomatResponse;
-import com.example.txbank.entity.SupportMessage;
 import com.example.txbank.entity.UserBank;
 
 public interface TxBankService {
@@ -34,6 +33,6 @@ public interface TxBankService {
 	
 	public UserBankTransactionResponse transferAccumulativeBalance(BigDecimal amount, int userId);
 	
-//	public UserBankTransactionResponse getMoneyCredit();
+	public UserBankTransactionResponse getMoneyCredit(int userId, BigDecimal amountCredit, BigDecimal clientMonth);
 	
 }

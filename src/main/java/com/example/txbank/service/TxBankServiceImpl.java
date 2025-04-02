@@ -14,16 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.txbank.automation.AutomationCardFramework;
-import com.example.txbank.automation.GreateTransactionsFramework;
+import com.example.txbank.automation.СreateTransactionsFramework;
 import com.example.txbank.dao.TxBankRepository;
 import com.example.txbank.dto.BalanceResponse;
 import com.example.txbank.dto.UserBankInfoResponse;
 import com.example.txbank.dto.UserBankTransactionResponse;
 import com.example.txbank.dto.UserBankomatResponse;
-import com.example.txbank.entity.SupportMessage;
 import com.example.txbank.entity.UserBank;
 import com.example.txbank.enums.Role;
 import com.example.txbank.exceptionHandling.InsufficientFundsException;
+import com.example.txbank.exceptionHandling.TransactionMistakeException;
 import com.example.txbank.exceptionHandling.UserNotFoundException;
 
 @Service
@@ -34,7 +34,7 @@ public class TxBankServiceImpl implements TxBankService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
-	private GreateTransactionsFramework greateTransactionsFramework;
+	private СreateTransactionsFramework createTransactionsFramework;
 
 	private static final Logger logger = LoggerFactory.getLogger(TxBankServiceImpl.class);
 
@@ -62,7 +62,7 @@ public class TxBankServiceImpl implements TxBankService {
 
 	@Override
 	public List<UserBank> getUserBankAdmin() {
-		
+
 		List<UserBank> getAllUserBank = txBankRepository.findAll();
 
 		if (getAllUserBank.isEmpty()) {
@@ -91,7 +91,7 @@ public class TxBankServiceImpl implements TxBankService {
 
 	@Override
 	public UserBank getUserBankIdAdmin(int id) {
-		
+
 		Optional<UserBank> optional = txBankRepository.findById(id);
 
 		if (optional.isPresent()) {
@@ -99,9 +99,7 @@ public class TxBankServiceImpl implements TxBankService {
 			logger.info("User with ID {} found", id);
 			return user;
 		} else {
-			// Логируем, что пользователь не найден
 			logger.warn("User with ID {} not found", id);
-			// Генерируем исключение, если пользователь не найден
 			throw new UserNotFoundException("User with ID " + id + " not found");
 		}
 
@@ -109,14 +107,15 @@ public class TxBankServiceImpl implements TxBankService {
 
 	@Override
 	public BalanceResponse getMyBalanceCard(int id) {
-		
+
 		Optional<UserBank> optional = txBankRepository.findById(id);
 
 		if (optional.isPresent()) {
 			UserBank user = optional.get();
-			logger.info("User balance for ID {}: {}", id, user.getBalanceCard(), user.getBalanceAccumulative(), user.getBalanceCredit());
-
-			return new BalanceResponse(user.getBankCard(), user.getBalanceCard(), user.getBalanceAccumulative(), user.getBalanceCredit());
+			logger.info("User balance for ID {}: {}", id, user.getBalanceCard(), user.getBalanceAccumulative(),
+					user.getBalanceCredit());
+			return new BalanceResponse(user.getBankCard(), user.getBalanceCard(), user.getBalanceAccumulative(),
+					user.getBalanceCredit());
 		} else {
 			logger.warn("User with ID {} not found", id);
 			throw new UserNotFoundException("User with ID " + id + " not found");
@@ -124,8 +123,9 @@ public class TxBankServiceImpl implements TxBankService {
 	}
 
 	@Override
-	public UserBankTransactionResponse transferMoney(String typePayment, int senderId, Long receiverBankCard, BigDecimal amount, String commentTransaction) {
-		
+	public UserBankTransactionResponse transferMoney(String typePayment, int senderId, Long receiverBankCard,
+			BigDecimal amount, String commentTransaction) {
+
 		Optional<UserBank> optionalSenderId = txBankRepository.findById(senderId);
 		Optional<UserBank> optionalReceiverBankCard = txBankRepository.findByBankCard(receiverBankCard);
 
@@ -135,7 +135,7 @@ public class TxBankServiceImpl implements TxBankService {
 
 			BigDecimal balanceSender;
 			BigDecimal balanceReceiver = userReceiver.getBalanceCard();
-			
+
 			switch (typePayment) {
 			case "1":
 				balanceSender = userSender.getBalanceCard();
@@ -147,7 +147,7 @@ public class TxBankServiceImpl implements TxBankService {
 				balanceSender = userSender.getBalanceCredit();
 				break;
 			default:
-		        throw new IllegalArgumentException("Невідомий тип оплати: " + typePayment);
+				throw new IllegalArgumentException("Невідомий тип оплати: " + typePayment);
 			}
 
 			// Проверка на баланс
@@ -155,35 +155,35 @@ public class TxBankServiceImpl implements TxBankService {
 				logger.warn("Insufficient funds for user with ID " + senderId);
 				throw new InsufficientFundsException("Insufficient funds for user with ID " + senderId);
 			}
-			
-	        switch (typePayment) {
-	        case "1":
-                userSender.setBalanceCard(balanceSender.subtract(amount));
-                break;
-            case "2":
-                userSender.setBalanceAccumulative(balanceSender.subtract(amount));
-                break;
-            case "3":
-                userSender.setBalanceCredit(balanceSender.subtract(amount));
-                break;
-	        }
-	        
+
+			switch (typePayment) {
+			case "1":
+				userSender.setBalanceCard(balanceSender.subtract(amount));
+				break;
+			case "2":
+				userSender.setBalanceAccumulative(balanceSender.subtract(amount));
+				break;
+			case "3":
+				userSender.setBalanceCredit(balanceSender.subtract(amount));
+				break;
+			}
+
 			userReceiver.setBalanceCard(balanceReceiver.add(amount));// Выполняет сложение + , равно такому варианту
 																		// balanceSender + amount.
 			// Сохранение обновленных пользователей
 			txBankRepository.save(userSender);
 			txBankRepository.save(userReceiver);
 			// Создание транзакции
-			greateTransactionsFramework.transferTransaction(amount, userSender, userReceiver, commentTransaction);
+			createTransactionsFramework.transferTransaction(amount, userSender, userReceiver, commentTransaction);
 
 			logger.info("Transferred {} from user {} to user {}", amount, senderId, receiverBankCard);
 
 			return new UserBankTransactionResponse(userSender.getId(), userSender.getBankCard(), userSender.getName(),
 					userSender.getBalanceCard(), userSender.getSentTransactions(),
-					userSender.getReceivedTransactions()); // Возвращаем обновленного получателя
+					userSender.getReceivedTransactions());
 		} else {
 
-			greateTransactionsFramework.mistakeTransferTransaction(amount);
+			createTransactionsFramework.mistakeTransferTransaction(amount);
 			logger.warn("User with ID {} or ID {} not found", senderId, receiverBankCard);
 			throw new UserNotFoundException("User with ID " + senderId + " or ID " + receiverBankCard + " not found");
 
@@ -192,25 +192,25 @@ public class TxBankServiceImpl implements TxBankService {
 
 	@Override
 	public UserBankomatResponse depositMoney(int id, BigDecimal amount) {
-		
+
 		Optional<UserBank> optional = txBankRepository.findById(id);
 
 		if (optional.isPresent()) {
 			UserBank userBank = optional.get();
 			BigDecimal balanceReceiver = userBank.getBalanceCard();
-			userBank.setBalanceCard(balanceReceiver.add(amount));// Выполняет сложение +
+			userBank.setBalanceCard(balanceReceiver.add(amount));
 
 			txBankRepository.save(userBank);
 			logger.info(
 					"The user with this " + id + " was successfully replenished balance with the amount: " + amount);
 
-			greateTransactionsFramework.depositTransaction(id, amount, userBank);
+			createTransactionsFramework.depositTransaction(id, amount, userBank);
 
 			return new UserBankomatResponse(userBank.getId(), userBank.getBankCard(), userBank.getName(),
 					userBank.getBalanceCard(), amount, LocalDateTime.now());
 		} else {
 
-			greateTransactionsFramework.mistakeDepositTransaction(amount);
+			createTransactionsFramework.mistakeDepositTransaction(amount);
 			logger.warn("Error, no user with this " + id + " was found, replenishment cancelled.Try again ...");
 			throw new UserNotFoundException("Error, no user with this " + id + " was found, replenishment cancelled");
 		}
@@ -242,12 +242,12 @@ public class TxBankServiceImpl implements TxBankService {
 			logger.info("Funds have been withdrawn from account ID {}: Amount withdrawn = {}. Have a good day..!", id,
 					amount);
 
-			greateTransactionsFramework.withdrawTransaction(amount, userBank);
+			createTransactionsFramework.withdrawTransaction(amount, userBank);
 			return new UserBankomatResponse(userBank.getId(), userBank.getBankCard(), userBank.getName(),
 					userBank.getBalanceCard(), amount, LocalDateTime.now());
 		} else {
 
-			greateTransactionsFramework.mistakeWithdrawTransaction(amount);
+			createTransactionsFramework.mistakeWithdrawTransaction(amount);
 			logger.warn("Error, account with this: " + id + " does not exist, withdrawal cancelled. Try again ...");
 			throw new UserNotFoundException(
 					"Error, account with this: " + id + " does not exist, withdrawal cancelled.");
@@ -278,7 +278,7 @@ public class TxBankServiceImpl implements TxBankService {
 
 	@Override
 	public List<BigDecimal> getMathematicalCredit(BigDecimal amountCredit, BigDecimal clientMonth) {
-		
+
 		BigDecimal annualInterestRate = new BigDecimal("44.29"); // Годовая процентная ставка
 
 		// Формула расчета суммы за год 44.29 / 100 * 10000
@@ -306,7 +306,7 @@ public class TxBankServiceImpl implements TxBankService {
 
 	@Override
 	public UserBankTransactionResponse transferAccumulativeBalance(BigDecimal amount, int userId) {
-		
+
 		Optional<UserBank> optional = txBankRepository.findById(userId);
 
 		if (optional.isPresent()) {
@@ -333,6 +333,39 @@ public class TxBankServiceImpl implements TxBankService {
 			logger.warn("User with ID {} not found", userId);
 			throw new UserNotFoundException("User with ID " + userId + "not found");
 		}
+	}
+
+	@Override
+	public UserBankTransactionResponse getMoneyCredit(int userId, BigDecimal amountCredit, BigDecimal clientMonth) {
+
+		Optional<UserBank> optional = txBankRepository.findById(userId);
+
+		if (optional.isPresent()) {
+			UserBank userBank = optional.get();
+			BigDecimal userBalanceCredit = userBank.getBalanceCredit();
+
+			try {
+				
+				if (amountCredit == null || amountCredit.compareTo(BigDecimal.ZERO) <= 0) {
+					throw new IllegalArgumentException("Amount to credit must be greater than zero.");
+				}
+
+				userBank.setBalanceCredit(userBalanceCredit.add(amountCredit));
+				txBankRepository.save(userBank);
+				createTransactionsFramework.getCreditMoneyTransaction(amountCredit, userBank);
+			} catch (Exception e) {
+				logger.error("Failed to credit amount {} for user with ID {} due to an exception.", amountCredit,
+						userId, e);
+				throw new TransactionMistakeException("Error processing credit for user ID " + userId, e);
+			}
+
+			return new UserBankTransactionResponse(userBank.getId(), userBank.getBalanceCredit());
+
+		} else {
+			logger.warn("User with ID {} not found", userId);
+			throw new UserNotFoundException("User with ID " + userId + "not found");
+		}
+
 	}
 
 }

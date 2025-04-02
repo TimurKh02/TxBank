@@ -94,6 +94,12 @@ public class UserBankTransactionResponse {
 	public UserBankTransactionResponse() {
 	}
 
+	public UserBankTransactionResponse(int id, BigDecimal balanceCredit) {
+		super();
+		this.id = id;
+		this.balanceCredit = balanceCredit;
+	}
+
 	public UserBankTransactionResponse(int id, BigDecimal balanceCard, BigDecimal balanceAccumulative) {
 		this.id = id;
 		this.balanceCard = balanceCard;
@@ -117,7 +123,6 @@ public class UserBankTransactionResponse {
 				+ receivedTransactions + "]";
 	}
 
-	// Сортировка по дате
 	public List<UserTransactionHistory> getAllTransaction() {
 
 		return Stream

@@ -27,6 +27,8 @@ import com.example.txbank.dto.UserBankTransactionResponse;
 import com.example.txbank.service.TxBankService;
 import com.example.txbank.service.TxBankSupportService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 //@RequestMapping("/txbank")
 public class MyControllerBank {
@@ -106,10 +108,6 @@ public class MyControllerBank {
 	public Map<String, Object> calculateCredit(@RequestParam("amountCredit") BigDecimal amountCredit, 
 			@RequestParam("clientMonth") BigDecimal clientMonth) {
 		
-	    if (amountCredit == null || clientMonth == null) {
-	        throw new IllegalArgumentException("Parameters cannot be null");
-	    }
-
 	    List<BigDecimal> mathematicalCredit = txBankService.getMathematicalCredit(amountCredit, clientMonth);
 	    BigDecimal clientMonthResult = mathematicalCredit.get(0).setScale(2, RoundingMode.HALF_UP);
 	    BigDecimal yearResult = mathematicalCredit.get(1).setScale(2, RoundingMode.HALF_UP);
@@ -121,8 +119,23 @@ public class MyControllerBank {
 	    response.put("yearResult", yearResult);
 	    response.put("monthResult", monthResult);
 	    response.put("dayResult", dayResult);
-
+	    response.put("amountCredit", amountCredit);
+	    response.put("clientMonth", clientMonth);
+	    
 	    return response;
+	}
+	
+	@PostMapping("/getCreditMoney")
+	public String getCreditCalculateMoney(@RequestParam("amountCredit") BigDecimal amountCredit, 
+			@RequestParam("clientMonth") BigDecimal clientMonth) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		UserBankInfoResponse userBankInfoResponse = txBankService.getUserByLogin(currentPrincipalName);
+		int userBankId = userBankInfoResponse.getId();
+		txBankService.getMoneyCredit(userBankId, amountCredit, clientMonth);
+		
+		return "redirect:/myProfile";
 	}
 	
 	@PostMapping("/myProfile/support")
