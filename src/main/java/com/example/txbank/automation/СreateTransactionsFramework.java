@@ -123,19 +123,21 @@ public class СreateTransactionsFramework {
 		transaction.setTransactionAmount(amount);
 		transaction.setDescription("Credit: " + "TxBank");
 		transaction.setTransactionDate(LocalDateTime.now());
-		transaction.setBankTransactionInfo("TxBank Bank Credit");
+		transaction.setReceiver(userBank);
+		transaction.setBankTransactionInfo("TxBank Credit");
 		transaction.setStatusTransaction("COMPLETED");
 		transaction.setTypeTransaction("GET CREDIT");
 		txTransactionHistoryRepository.save(transaction);
 	}
 	
-	public void mistakeCreditMoneyTransaction (BigDecimal amount) {
+	public void mistakeCreditMoneyTransaction (BigDecimal amount, UserBank userBank) {
 		
 		UserTransactionHistory transaction = new UserTransactionHistory();
 		transaction.setTransactionAmount(amount);
 		transaction.setDescription("Credit: " + "TxBank");
 		transaction.setTransactionDate(LocalDateTime.now());
-		transaction.setBankTransactionInfo("TxBank Bank Credit");
+		transaction.setReceiver(userBank);
+		transaction.setBankTransactionInfo("TxBank Credit");
 		transaction.setStatusTransaction("UNFINISHED");
 		transaction.setTypeTransaction("GET CREDIT");
 		txTransactionHistoryRepository.save(transaction);

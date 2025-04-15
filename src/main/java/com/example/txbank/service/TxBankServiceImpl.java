@@ -168,12 +168,10 @@ public class TxBankServiceImpl implements TxBankService {
 				break;
 			}
 
-			userReceiver.setBalanceCard(balanceReceiver.add(amount));// Выполняет сложение + , равно такому варианту
-																		// balanceSender + amount.
-			// Сохранение обновленных пользователей
+			userReceiver.setBalanceCard(balanceReceiver.add(amount)); // balanceSender + amount.
 			txBankRepository.save(userSender);
 			txBankRepository.save(userReceiver);
-			// Создание транзакции
+			
 			createTransactionsFramework.transferTransaction(amount, userSender, userReceiver, commentTransaction);
 
 			logger.info("Transferred {} from user {} to user {}", amount, senderId, receiverBankCard);
@@ -354,8 +352,10 @@ public class TxBankServiceImpl implements TxBankService {
 				txBankRepository.save(userBank);
 				createTransactionsFramework.getCreditMoneyTransaction(amountCredit, userBank);
 			} catch (Exception e) {
+				
 				logger.error("Failed to credit amount {} for user with ID {} due to an exception.", amountCredit,
 						userId, e);
+				createTransactionsFramework.mistakeCreditMoneyTransaction(amountCredit, userBank);			
 				throw new TransactionMistakeException("Error processing credit for user ID " + userId, e);
 			}
 

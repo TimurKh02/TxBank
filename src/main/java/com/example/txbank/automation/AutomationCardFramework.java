@@ -8,12 +8,9 @@ public class AutomationCardFramework {
 
 		long min = 4400000000000000L;
 		long max = 4499999999999999L;
-
-		// Генерация случайного числа в диапазоне [min, max)
 		long cardN = ThreadLocalRandom.current().nextLong(min, max + 1);
-
 		long numberCard = cardN;
-
+		
 		return numberCard;
 	}
 
