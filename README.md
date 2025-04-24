@@ -25,7 +25,8 @@ Base URL: `http://localhost:8080/api/`
 - `getUserBankAdmin` – Finds all users and their transactions: (GET) `http://localhost:8080/api/getUserBankAdmin`  
 - `getUserBankIdAdmin` – Finds a user by ID: (GET) `http://localhost:8080/api/getBankIdAdmin/{id}`  
 - `getMyBalanceCard` – Returns card balance information by user ID: (GET) `http://localhost:8080/api/getMyBalance/{id}`  
-- `transferMoney` – Performs a transaction: (PUT) `http://localhost:8080/api/transferMoney/{senderId}/{receiverBankCard}/{amount}/{commentTransaction}` *(Not functional in Postman, only in the web app)*  
+- `transferMoney` – Performs a transaction: (PUT) `http://localhost:8080/api/transferMoney/{typePayment}/{senderId}/{receiverBankCard}/{amount}/{commentTransaction}`
+**typePayment:** 1 = getBalanceCard; 2 = getBalanceAccumulative; 3 = getBalanceCredit;
 - `depositMoney` – Simulates an ATM deposit to the specified card: (PUT) `http://localhost:8080/api/depositMoney/{id}/{amount}`  
 - `withdrawMoney` – Simulates an ATM withdrawal from the specified card: (PUT) `http://localhost:8080/api/withdrawMoney/{id}/{amount}`  
 - `getTransactionHistory` – Retrieves the transaction history by user ID: (GET) `http://localhost:8080/api/getTransactionHistory/{id}`  
