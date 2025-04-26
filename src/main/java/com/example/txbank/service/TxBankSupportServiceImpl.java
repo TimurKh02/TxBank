@@ -1,5 +1,6 @@
 package com.example.txbank.service;
 
+import java.time.LocalDateTime;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -17,8 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.txbank.automation.RandomCodeGenerator;
+import com.example.txbank.dao.TxBankCodeRegisterRepository;
 import com.example.txbank.dao.TxBankSupportMessageRepository;
 import com.example.txbank.dto.SupportMessageResponse;
+import com.example.txbank.entity.CodeRegisterEmail;
 import com.example.txbank.entity.SupportMessage;
 import com.example.txbank.enums.StatusMessageSupport;
 
@@ -31,6 +35,9 @@ public class TxBankSupportServiceImpl implements TxBankSupportService {
 	private String passwordBank;
 	@Autowired
 	private TxBankSupportMessageRepository txBankSupportMessageRepository;
+	private RandomCodeGenerator randomCodeGenerator;
+	@Autowired
+	private TxBankCodeRegisterRepository txBankCodeRegisterRepository;
 	private static final Logger logger = LoggerFactory.getLogger(TxBankServiceImpl.class);
 
 	@Override
@@ -57,7 +64,22 @@ public class TxBankSupportServiceImpl implements TxBankSupportService {
 	}
 
 	@Override
-	public void sendEmailCode(String emailRegister, String code) {
+	public void sendEmailCode(String emailRegister) {
+
+		String code = randomCodeGenerator.generateCodeRegistration();
+		LocalDateTime codeRegisterTime = LocalDateTime.now().plusMinutes(10);
+
+		try {
+			CodeRegisterEmail codeRegisterEmail = new CodeRegisterEmail();
+			codeRegisterEmail.setCodeEmailGenerate(code);
+			codeRegisterEmail.setCodeTime(codeRegisterTime);
+			codeRegisterEmail.setEmailUsers(emailRegister);
+			codeRegisterEmail.setVerifiedStatus(false);
+			txBankCodeRegisterRepository.save(codeRegisterEmail);
+		} catch (Exception e) {
+			logger.error("Error save data-bases information.. (-method: sendEmailCode-)");
+			throw new RuntimeException("Error save data-bases information..");
+		}
 
 		try {
 			Properties properties = new Properties();

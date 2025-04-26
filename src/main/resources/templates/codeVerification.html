@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>TxBank - Verification code</title>
+<link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+	<div class="header"></div>
+
+	<div class="container">
+		<div class="card">
+			<h1>Register at TxBank</h1>
+			<form th:action="@{/register}" method="post">
+				<div>
+					<label> Verification Code(Email): <input type="text" name="code" required />
+					</label>
+				</div>
+				<div>
+					<input type="submit" value="Register" />
+				</div>
+			</form>
+			<div class="back-button">
+				<button onclick="window.location.href='/welcome'">Back to
+					Welcome</button>
+			</div>
+		</div>
+
+		<div class="info-card">
+			<h2>What's Verification code?</h2>
+			<p>At TxBank, we are dedicated to providing top-notch banking
+				services with advanced security and convenience. Join thousands of
+				satisfied customers and manage your finances with confidence.</p>
+		</div>
+	</div>
+
+	<div class="footer"></div>
+</body>
+</html>

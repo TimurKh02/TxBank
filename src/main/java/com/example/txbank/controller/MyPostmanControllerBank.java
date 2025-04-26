@@ -59,19 +59,19 @@ public class MyPostmanControllerBank {
 		}
 	}
 
-//	@PutMapping("/transferMoney/{senderId}/{receiverBankCard}/{amount}/{commentTransaction}")
-//	public ResponseEntity<UserBankTransactionResponse> transferMoney(@PathVariable int senderId,
-//			@PathVariable Long receiverBankCard, @PathVariable BigDecimal amount, @PathVariable String commentTransaction) {
-//		try {
-//			UserBankTransactionResponse userTranferMoney = txBankService.transferMoney(senderId, receiverBankCard, amount, commentTransaction);
-//			return ResponseEntity.ok(userTranferMoney);
-//		} catch (UserNotFoundException e) {
-//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//		} catch (InsufficientFundsException e) {
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//		}
-//
-//	}
+	@PutMapping("/transferMoney/{typePayment}/{senderId}/{receiverBankCard}/{amount}/{commentTransaction}")
+	public ResponseEntity<UserBankTransactionResponse> transferMoney(@PathVariable String typePayment, @PathVariable int senderId,
+			@PathVariable Long receiverBankCard, @PathVariable BigDecimal amount, @PathVariable String commentTransaction) {
+		try {
+			UserBankTransactionResponse userTranferMoney = txBankService.transferMoney(typePayment ,senderId, receiverBankCard, amount, commentTransaction);
+			return ResponseEntity.ok(userTranferMoney);
+		} catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} catch (InsufficientFundsException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+
+	}
 
 	@PutMapping("/depositMoney/{id}/{amount}")
 	public ResponseEntity<UserBankomatResponse> depositMoney(@PathVariable int id, @PathVariable BigDecimal amount) {
@@ -85,7 +85,6 @@ public class MyPostmanControllerBank {
 
 	@PutMapping("/withdrawMoney/{id}/{amount}")
 	public ResponseEntity<UserBankomatResponse> withdrawMoney(@PathVariable int id, @PathVariable BigDecimal amount) {
-
 		try {
 			UserBankomatResponse userWithdrawMoney = txBankService.withdrawMoney(id, amount);
 			return ResponseEntity.ok(userWithdrawMoney);

@@ -29,7 +29,7 @@ public class СreateTransactionsFramework {
 		if(!commentTransaction.isEmpty()) {
 			senderTransaction.setCommentTransaction(commentTransaction);
 		} else {
-			senderTransaction.setCommentTransaction("Без коментаря");
+			senderTransaction.setCommentTransaction("No additional information");
 		}
 		txTransactionHistoryRepository.save(senderTransaction);
 		
@@ -44,7 +44,7 @@ public class СreateTransactionsFramework {
 		if(!commentTransaction.isEmpty()) {
 			receiverTransaction.setCommentTransaction(commentTransaction);
 		} else {
-			receiverTransaction.setCommentTransaction("Без коментаря");
+			receiverTransaction.setCommentTransaction("No additional information");
 		}
 		txTransactionHistoryRepository.save(receiverTransaction);
 		

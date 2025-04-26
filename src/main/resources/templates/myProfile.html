@@ -22,36 +22,35 @@
 			<h2>TxBank</h2>
 
 			<ul class="menu-list">
-				<li><a href="#" id="new-payment-link">Новий платіж</a></li>
-				<li><a href="#" id="credit-window-link">Кредитні кошти</a></li>
-				<li><a href="#" id="development-process-link">Реєстри
-						платежів</a></li>
-				<li><a href="#" id="development-process-linkTwo">Накопичення</a></li>
-				<li><a href="#" id="development-process-linkThree">Кешбек</a></li>
-				<li><a href="#" id="support-window">Служба Підтримки</a></li>
+				<li><a href="#" id="new-payment-link">New Payment</a></li>
+				<li><a href="#" id="credit-window-link">Credit Funds</a></li>
+				<li><a href="#" id="development-process-link">Payment Registers</a></li>
+				<li><a href="#" id="development-process-linkTwo">Accumulation</a></li>
+				<li><a href="#" id="development-process-linkThree">Cashback</a></li>
+				<li><a href="#" id="support-window">Support Service</a></li>
 			</ul>
 
 			<div class="overlay-bg" id="overlay-bg"></div>
 
 			<div class="overlay" id="overlay">
-				<h2>Новий платіж</h2>
+				<h2>New Payment</h2>
 				<form action="/myProfile" method="post">
 					<input type="hidden" th:name="${_csrf.parameterName}"
 						th:value="${_csrf.token}" />
 
 					<div class="mb-3">
-						<label for="typePayment" class="form-label visually-hidden">Виберіть
-							рахунок...</label> <select class="form-select" id="typePayment"
+						<label for="typePayment" class="form-label visually-hidden">Choose a payment 
+						method...</label> <select class="form-select" id="typePayment"
 							name="typePayment">
-							<option value="1" selected>Доступний залишок</option>
-							<option value="2">Накопичувальний рахунок</option>
-							<option value="3">Кредитний рахунок</option>
+							<option value="1" selected>Available balance</option>
+							<option value="2">Savings account</option>
+							<option value="3">Credit account</option>
 						</select>
 					</div>
 
 					<div class="row g-3 align-items-center mb-3">
 						<div class="col-md-4">
-							<label for="amount" class="form-label">Сума:</label>
+							<label for="amount" class="form-label">Amount:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="number" id="amount" name="amount"
@@ -61,13 +60,12 @@
 
 					<div class="row g-3 align-items-center mb-3">
 						<div class="col-md-4">
-							<label for="recipient" class="form-label">Одержувач:</label>
+							<label for="recipient" class="form-label">Recipient:</label>
 						</div>
 						<div class="col-md-8">
 							<input type="number" id="recipient" name="recipient"
 								class="form-control" required>
-							<div id="recipientHelpInline" class="form-text">Поле
-								повинно містити номер картки одержувача.</div>
+							<div id="recipientHelpInline" class="form-text">Recipient's card number required..</div>
 						</div>
 					</div>
 
@@ -75,45 +73,44 @@
 						<textarea class="form-control" name="commentTransaction"
 							placeholder="Leave a comment here" id="floatingTextarea"
 							maxlength="20"></textarea>
-						<label for="floatingTextarea">Коментарі</label>
+						<label for="floatingTextarea">Comments</label>
 					</div>
 
 					<div class="newpayment-button-container">
-						<button type="submit" class="btn btn-primary" value="true">Відправити</button>
+						<button type="submit" class="btn btn-primary" value="true">Transfer</button>
 						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Закрити</button>
+							data-dismiss="modal">Close</button>
 					</div>
 				</form>
 			</div>
 
 
 			<div class="creditWindow" id="creditWindow">
-				<h1 class="text-center">Кредитний калькулятор</h1>
+				<h1 class="text-center">Credit calculator</h1>
 				<form id="creditForm">
 					<div class="mb-3">
-						<label for="cardType" class="form-label">Картка</label> <select
+						<label for="cardType" class="form-label">Card</label> <select
 							id="cardType" class="form-select">
-							<option>Чорна картка</option>
-							<option>Золота картка</option>
+							<option>Black Card</option>
+							<option>Gold Card</option>
 						</select>
 					</div>
 					<div class="mb-3">
-						<label for="amount" class="form-label">Сума (₴)</label> <input
+						<label for="amount" class="form-label">Amount (₴)</label> <input
 							type="number" id="amount" class="form-control"
 							name="amountCredit" step="0.01" required>
 					</div>
 					<div class="mb-3">
-						<label for="term" class="form-label">Термін (місяці)</label> <input
+						<label for="term" class="form-label">Term (months)</label> <input
 							type="number" id="term" class="form-control" name="clientMonth"
 							step="0.01" required>
 					</div>
 					<div class="mb-3">
-						<label for="date" class="form-label">Дата виникнення
-							заборгованості</label> <input type="date" id="date" class="form-control"
+						<label for="date" class="form-label">Debt inception date</label> <input type="date" id="date" class="form-control"
 							value="2024-05-01">
 					</div>
 					<div>
-						<button type="submit" class="btn btn-primary">Розрахувати</button>
+						<button type="submit" class="btn btn-primary">Calculate</button>
 					</div>
 				</form>
 				<form th:action="@{/getCreditMoney}" method="post"
@@ -121,26 +118,25 @@
 					<div class="credit-button">
 						<input type="hidden" name="amountCredit" id="hiddenAmountCredit" />
 						<input type="hidden" name="clientMonth" id="hiddenClientMonth" />
-						<button type="button" class="btn btn-primary" id="openModalButton">Взяти
-							гроші в кредит</button>
+						<button type="button" class="btn btn-primary" id="openModalButton">Apply for a loan</button>
 					</div>
 				</form>
 				<hr>
-				<h2 class="text-center">Загальні витрати</h2>
+				<h2 class="text-center">General costs</h2>
 				<ul class="list-group">
-					<li class="">Процентна ставка: <span id="minPayment">44.29%</span>
+					<li class="">Annual interest rate: <span id="minPayment">44.29%</span>
 						₴
 					</li>
-					<li class="list-group-item">Загальна сума за ваш термін: <span
+					<li class="list-group-item">Total payable amount for your term: <span
 						id="clientMonthResult" th:text="${clientMonthResult}"></span> ₴
 					</li>
-					<li class="list-group-item">Загальна вартість кредиту за рік:
+					<li class="list-group-item">Total repayment amount per year:
 						<span id="yearResult" th:text="${yearResult}"></span> ₴
 					</li>
-					<li class="list-group-item">Вартість за місяць: <span
+					<li class="list-group-item">Monthly installment: <span
 						id="monthResult" th:text="${monthResult}"></span> ₴
 					</li>
-					<li class="list-group-item">Вартість за один день: <span
+					<li class="list-group-item">Cost per day: <span
 						id="dayResult" th:text="${dayResult}"></span> ₴
 					</li>
 				</ul>
@@ -197,54 +193,48 @@
 				            }
 				        });
 				    });
-				 // Управление модальным окном
+				 
 				    const modal = document.getElementById('confirmationModal');
 				    const form = document.getElementById('creditSubmitForm');
 
-				    // Открыть модальное окно
+				    
 				    $("#openModalButton").on("click", function() {
 				        modal.style.display = 'block';
 				    });
 
-				    // Закрыть модальное окно
+				    
 				    window.closeModal = function() {
 				        modal.style.display = 'none';
 				    };
 
-				    // Подтвердить и отправить форму
+				    
 				    window.confirmCredit = function() {
 				        modal.style.display = 'none';
-				        form.submit(); // Отправляем форму
+				        form.submit(); 
 				    };
 				});
 			</script>
 
 
 			<div class="developmentProcess" id="developmentProcess">
-				<h3>Вибачаємось за незрочнусті, але цей розділ ще знаходиться у
-					розробці</h3>
-				<p>Цей розділ нашого сайту ще знаходиться у стадії розробки. Ми
-					наполегливо працюємо над тим, щоб надати вам найкращий досвід
-					використання. Дякуємо за ваше терпіння та розуміння. Будь ласка,
-					слідкуйте за оновленнями — ми незабаром будемо готові представити
-					цей розділ у всій його красі. Якщо у вас є які-небудь питання або
-					пропозиції, не соромтеся зв'язатися з нами. Ми завжди раді
-					допомогти! Дякуємо за те, що залишаєтеся з нами!</p>
-				<h3>Щоб закрити вікно, натисніть на будь-яке місце на екрані.</h3>
+				<h3>We apologize for the inconvenience, but this section is still under development.</h3>
+				<p>This section of our website is still under development. 
+					We are working diligently to provide you with the best user experience. 
+					Thank you for your patience and understanding. 
+					Please stay tuned for updates—we will soon be ready to present this section in all its glory. 
+					If you have any questions or suggestions, do not hesitate to reach out to us. 
+					We are always happy to help! Thank you for staying with us!</p>
+				<h3>To close the window, click anywhere on the screen.</h3>
 			</div>
 
 			<div class="supportWindow" id="supportWindow">
 
-				<h3>Як звернутися до служби підтримки</h3>
+				<h3>How to contact the help desk</h3>
 				<ul class="list-support">
 
-					<li>1. Введіть вашу пошту: Переконайтеся, що у вас під рукою
-						актуальна електронна адреса, на яку можуть надіслати відповідь</li>
-					<li>2. Опис проблеми: Напишіть коротке і чітке пояснення суті
-						вашої проблеми</li>
-					<li>3. Відправте заявку: Натисніть на кнопку відправки і
-						зачекайте підтвердження, далі ваша заявка буде перевірена протягом
-						24годин</li>
+					<li>Enter your email: Make sure you have a valid email address where a response can be sent.</li>
+					<li>2. Problem description: Write a short and clear explanation of the nature of your issue.</li>
+					<li>3. Submit your request: Click the submit button and wait for confirmation. Your request will then be reviewed within 24 hours.</li>
 
 				</ul>
 				<form th:action="@{/myProfile/support}" method="post">
@@ -264,7 +254,7 @@
 					</div>
 
 					<div class="supportButton">
-						<button type="submit" class="support-button">Відправити</button>
+						<button type="submit" class="support-button">Send</button>
 					</div>
 				</form>
 			</div>
@@ -275,14 +265,14 @@
 				    const overlayBg = document.getElementById('overlay-bg');
 				    const closeButtons = document.querySelectorAll('.btn.btn-secondary');
 				    
-				    // Функция для показа всплывающего окна
+				    
 				    function showOverlay(overlayId) {
 				        const overlay = document.getElementById(overlayId);
 				        overlay.style.display = 'block';
 				        overlayBg.style.display = 'block';
 				    }
 
-				    // Функция для скрытия всплывающего окна
+				    
 				    function hideOverlay() {
 				        const overlays = document.querySelectorAll('.overlay, .creditWindow, .developmentProcess, .supportWindow');
 				        overlays.forEach(overlay => {
@@ -291,7 +281,7 @@
 				        overlayBg.style.display = 'none';
 				    }
 
-				    // Универсальная функция для настройки модальных окон
+				    
 				    function setupModal(triggerId, overlayId) {
 				        const trigger = document.getElementById(triggerId);
 				        trigger.addEventListener('click', function(event) {
@@ -300,7 +290,7 @@
 				        });
 				    }
 
-				    // Настройка всплывающих окон
+				    
 				    setupModal('new-payment-link', 'overlay');
 				    setupModal('credit-window-link', 'creditWindow');
 				    setupModal('development-process-link', 'developmentProcess');
@@ -308,7 +298,7 @@
 				    setupModal('development-process-linkThree', 'developmentProcess');
 				    setupModal('support-window', 'supportWindow');
 
-				    // Скрытие всплывающих окон при клике на кнопки закрытия и фон
+				    
 				    closeButtons.forEach(button => {
 				        button.addEventListener('click', hideOverlay);
 				    });
@@ -321,11 +311,10 @@
 
 		</div>
 
-		<!-- Основной контент -->
 		<div class="dashboard">
 			<div class="balance-section">
 				<div class="section-one">
-					<h3>Доступний залишок</h3>
+					<h3>Available balance</h3>
 					<p>
 						<strong><span
 							th:text="${#numbers.formatDecimal(balanceResponse.balanceCard, 1, 2)}"
@@ -333,7 +322,7 @@
 					</p>
 				</div>
 				<div class="section-one">
-					<h3>Накопичувальний рахунок</h3>
+					<h3>Savings account</h3>
 					<p>
 						<strong><span
 							th:text="${#numbers.formatDecimal(balanceResponse.balanceAccumulative, 1, 2)}"
@@ -341,7 +330,7 @@
 					</p>
 				</div>
 				<div class="section-one">
-					<h3>Кредитний рахунок</h3>
+					<h3>Credit account</h3>
 					<p>
 						<strong><span
 							th:text="${#numbers.formatDecimal(balanceResponse.balanceCredit, 1, 2)}"
@@ -352,7 +341,7 @@
 
 			<div class="accounts-section">
 				<h3>
-					Номер вашої картки : <strong><span
+					Bank card number : <strong><span
 						th:text="${#numbers.formatDecimal(balanceResponse.bankCard, 0, 0)}"
 						style="font-size: 0.9em; color: black; cursor: pointer;"
 						onclick="copyToClipboard(this)"></span></strong>
@@ -361,25 +350,25 @@
 					<table class="accounts-table">
 						<thead>
 							<tr>
-								<th>Назва та номер</th>
-								<th>Сума транзакції</th>
-								<th>Категорія транзакції</th>
-								<th>Дата транзакції</th>
-								<th>Статус транзакції</th>
-								<th>Банк відправника</th>
-								<th>Коментар</th>
+								<th>ID number</th>
+								<th>Transferred amount</th>
+								<th>Transaction type</th>
+								<th>Transaction date</th>
+								<th>Transaction status</th>
+								<th>Sender's bank</th>
+								<th>Comment</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr
 								th:each="transaction : ${userBankTransactionResponse.getAllTransaction}">
-								<td th:text="${transaction.idTransaction}">Тип рахунку</td>
-								<td th:text="${transaction.transactionAmount} + ' UAH'">Сума</td>
-								<td th:text="${transaction.typeTransaction}">Тип транзакції</td>
-								<td th:text="${transaction.transactionDate}">Дата</td>
-								<td th:text="${transaction.statusTransaction}">Статус</td>
-								<td th:text="${transaction.bankTransactionInfo}">Банк</td>
-								<td th:text="${transaction.commentTransaction}">Коментар</td>
+								<td th:text="${transaction.idTransaction}">Bank account type</td>
+								<td th:text="${transaction.transactionAmount} + ' UAH'">Amount</td>
+								<td th:text="${transaction.typeTransaction}">Transaction type</td>
+								<td th:text="${transaction.transactionDate}">Transaction date</td>
+								<td th:text="${transaction.statusTransaction}">Transaction status</td>
+								<td th:text="${transaction.bankTransactionInfo}">Sender's bank</td>
+								<td th:text="${transaction.commentTransaction}">Comment</td>
 							</tr>
 						</tbody>
 					</table>

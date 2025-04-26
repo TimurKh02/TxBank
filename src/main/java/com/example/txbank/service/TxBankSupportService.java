@@ -6,6 +6,6 @@ public interface TxBankSupportService {
 	
 	public SupportMessageResponse saveSupportMessage(String userEmail, String userMessage);
 	
-	public void sendEmailCode(String emailRegister, String code);
+	public void sendEmailCode(String emailRegister);
 
 }
