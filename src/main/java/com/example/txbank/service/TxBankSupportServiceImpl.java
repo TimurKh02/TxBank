@@ -96,10 +96,10 @@ public class TxBankSupportServiceImpl implements TxBankSupportService {
 			});
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("ваш_email@gmail.com"));
+			message.setFrom(new InternetAddress(loginBank));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailRegister));
-			message.setSubject("Подтверждение почты");
-			message.setText("Ваш код подтверждения: " + code);
+			message.setSubject("Email confirmation");
+			message.setText("Your verification code: " + code);
 			Transport.send(message);
 		} catch (MessagingException e) {
 			logger.error("Error sending email (-Register method-)" + e);

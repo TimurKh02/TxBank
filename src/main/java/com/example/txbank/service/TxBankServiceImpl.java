@@ -150,8 +150,8 @@ public class TxBankServiceImpl implements TxBankService {
 				throw new IllegalArgumentException("Невідомий тип оплати: " + typePayment);
 			}
 
-			// Проверка на баланс
-			if (balanceSender.compareTo(amount) < 0) { // Равно такому варианту if(balanceSender < amount)
+			
+			if (balanceSender.compareTo(amount) < 0) { 
 				logger.warn("Insufficient funds for user with ID " + senderId);
 				throw new InsufficientFundsException("Insufficient funds for user with ID " + senderId);
 			}
@@ -168,7 +168,7 @@ public class TxBankServiceImpl implements TxBankService {
 				break;
 			}
 
-			userReceiver.setBalanceCard(balanceReceiver.add(amount)); // balanceSender + amount.
+			userReceiver.setBalanceCard(balanceReceiver.add(amount)); 
 			txBankRepository.save(userSender);
 			txBankRepository.save(userReceiver);
 			
@@ -217,8 +217,8 @@ public class TxBankServiceImpl implements TxBankService {
 	@Override
 	public UserBankomatResponse withdrawMoney(int id, BigDecimal amount) {
 
-		// Проверка на отрицательные значения
-		if (amount.compareTo(BigDecimal.ZERO) <= 0) { // Равно такому варианту if(amount <= 0)
+		
+		if (amount.compareTo(BigDecimal.ZERO) <= 0) { 
 			throw new IllegalArgumentException("Withdrawal amount must be positive");
 		}
 
@@ -229,7 +229,7 @@ public class TxBankServiceImpl implements TxBankService {
 			UserBank userBank = optional.get();
 			BigDecimal userBalance = userBank.getBalanceCard();
 
-			if (userBalance.compareTo(amount) < 0) { // Равно такому варианту if(userBalance < amount)
+			if (userBalance.compareTo(amount) < 0) { 
 
 				logger.warn("Insufficient funds for user with ID " + id);
 				throw new InsufficientFundsException("Insufficient funds for user with ID " + id);
@@ -277,18 +277,12 @@ public class TxBankServiceImpl implements TxBankService {
 	@Override
 	public List<BigDecimal> getMathematicalCredit(BigDecimal amountCredit, BigDecimal clientMonth) {
 
-		BigDecimal annualInterestRate = new BigDecimal("44.29"); // Годовая процентная ставка
-
-		// Формула расчета суммы за год 44.29 / 100 * 10000
+		BigDecimal annualInterestRate = new BigDecimal("44.29"); 		
 		BigDecimal resultYear = annualInterestRate.divide(new BigDecimal("100"), 10, RoundingMode.HALF_EVEN);
 		BigDecimal algoritmResultYear = resultYear.multiply(amountCredit);
 		BigDecimal resultYearFiniched = amountCredit.add(algoritmResultYear);
-
-		// Получаем итоговую сумму за Месяц
-		BigDecimal algoritmResultMonth = algoritmResultYear.divide(new BigDecimal("12"), 10, RoundingMode.HALF_EVEN);
-		// Получаем итоговую сумму за День
-		BigDecimal algoritmResultDay = algoritmResultYear.divide(new BigDecimal("365"), 10, RoundingMode.UP);
-		// Получаем итоговую сумму за Указанный срок клиента
+		BigDecimal algoritmResultMonth = algoritmResultYear.divide(new BigDecimal("12"), 10, RoundingMode.HALF_EVEN);		
+		BigDecimal algoritmResultDay = algoritmResultYear.divide(new BigDecimal("365"), 10, RoundingMode.UP);		
 		BigDecimal algoritmResultClientMonth = algoritmResultMonth.multiply(clientMonth);
 
 		List<BigDecimal> creditResult = new ArrayList<>();

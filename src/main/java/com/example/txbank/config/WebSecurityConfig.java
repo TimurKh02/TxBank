@@ -24,23 +24,23 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**", "/swagger-ui/**", "/v3/api-docs/**")) // Отключаем CSRF для API
+                .ignoringRequestMatchers("/api/**", "/swagger-ui/**", "/v3/api-docs/**")) 
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/images/**", "/css/**", "/js/**", "/welcome", "/register", "/logout", "/infoWindow").permitAll()
-                .requestMatchers("/myProfile").hasRole("USER") // Используем requestMatchers для определения прав доступа
-                .anyRequest().authenticated()) // Все остальные запросы требуют аутентификации
+                .requestMatchers("/images/**", "/css/**", "/js/**", "/welcome", "/register", "/logout", "/infoWindow", "/codeVerification").permitAll()
+                .requestMatchers("/myProfile").hasRole("USER") 
+                .anyRequest().authenticated()) 
             .formLogin(form -> form
-                .loginPage("/login") // Указывает на твою страницу логина
-                .loginProcessingUrl("/login") // Обрабатывает POST-запросы на этот URL
-                .defaultSuccessUrl("/myProfile", true) // Куда перенаправлять после успешного входа
-                .failureUrl("/login?error") // Куда перенаправлять при ошибке
+                .loginPage("/login") 
+                .loginProcessingUrl("/login") 
+                .defaultSuccessUrl("/myProfile", true) 
+                .failureUrl("/login?error") 
                 .permitAll())
             .logout(logout -> logout
-                .logoutUrl("/logout") // URL для выхода
-                .logoutSuccessUrl("/welcome") // Перенаправление на страницу логина после выхода
-                .permitAll()); // Разрешаем доступ к функции выхода всем
+                .logoutUrl("/logout") 
+                .logoutSuccessUrl("/welcome") 
+                .permitAll()); 
 
         return http.build();
     }
