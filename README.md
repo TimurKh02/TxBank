@@ -5,7 +5,8 @@ This project is still in development and remains unfinished, but it will continu
 - Spring Security  
 - Spring MVC  
 - JPA & Hibernate  
-- MySQL  
+- MySQL
+- MongoDB
 - SQL  
 - HTML & CSS  
 - Thymeleaf  
