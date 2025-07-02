@@ -16,8 +16,9 @@ public class СreateTransactionsFramework {
 	@Autowired
 	private TxTransactionHistoryRepository txTransactionHistoryRepository;
 
-	public void transferTransaction(BigDecimal amount, UserBank userSender, UserBank userReceiver, String commentTransaction) {
-		
+	public void transferTransaction(BigDecimal amount, UserBank userSender, UserBank userReceiver,
+			String commentTransaction) {
+
 		UserTransactionHistory senderTransaction = new UserTransactionHistory();
 		senderTransaction.setTransactionAmount(amount.negate());
 		senderTransaction.setDescription("Transfer: " + userSender.getName());
@@ -25,14 +26,14 @@ public class СreateTransactionsFramework {
 		senderTransaction.setSender(userSender);
 		senderTransaction.setBankTransactionInfo("Unknown bank");
 		senderTransaction.setStatusTransaction("COMPLETED");
-		senderTransaction.setTypeTransaction("TRANSFER");		
-		if(!commentTransaction.isEmpty()) {
+		senderTransaction.setTypeTransaction("TRANSFER");	
+		if (!commentTransaction.isEmpty()) {
 			senderTransaction.setCommentTransaction(commentTransaction);
 		} else {
 			senderTransaction.setCommentTransaction("No additional information");
 		}
 		txTransactionHistoryRepository.save(senderTransaction);
-		
+
 		UserTransactionHistory receiverTransaction = new UserTransactionHistory();
 		receiverTransaction.setTransactionAmount(amount);
 		receiverTransaction.setDescription("Transfer: " + userSender.getName());
@@ -41,17 +42,17 @@ public class СreateTransactionsFramework {
 		receiverTransaction.setBankTransactionInfo("Unknown bank");
 		receiverTransaction.setStatusTransaction("COMPLETED");
 		receiverTransaction.setTypeTransaction("TRANSFER");
-		if(!commentTransaction.isEmpty()) {
+		if (!commentTransaction.isEmpty()) {
 			receiverTransaction.setCommentTransaction(commentTransaction);
 		} else {
 			receiverTransaction.setCommentTransaction("No additional information");
 		}
 		txTransactionHistoryRepository.save(receiverTransaction);
-		
+
 	}
 
 	public void mistakeTransferTransaction(BigDecimal amount) {
-		
+
 		UserTransactionHistory transaction = new UserTransactionHistory();
 		transaction.setTransactionAmount(amount);
 		transaction.setDescription("Transfer: " + "UNKNOWN MISTAKE");
@@ -78,7 +79,7 @@ public class СreateTransactionsFramework {
 		transaction.setTypeTransaction("DEPOSIT");
 		txTransactionHistoryRepository.save(transaction);
 	}
-	
+
 	public void mistakeDepositTransaction(BigDecimal amount) {
 
 		UserTransactionHistory transaction = new UserTransactionHistory();
@@ -90,9 +91,9 @@ public class СreateTransactionsFramework {
 		transaction.setTypeTransaction("DEPOSIT");
 		txTransactionHistoryRepository.save(transaction);
 	}
-	
-	public void withdrawTransaction (BigDecimal amount, UserBank userBank) {
-		
+
+	public void withdrawTransaction(BigDecimal amount, UserBank userBank) {
+
 		UserTransactionHistory transaction = new UserTransactionHistory();
 		transaction.setTransactionAmount(amount.negate());
 		transaction.setDescription("Withdraw: " + userBank.getName());
@@ -104,9 +105,9 @@ public class СreateTransactionsFramework {
 		transaction.setTypeTransaction("WITHDRAW");
 		txTransactionHistoryRepository.save(transaction);
 	}
-	
-	public void mistakeWithdrawTransaction (BigDecimal amount) {
-		
+
+	public void mistakeWithdrawTransaction(BigDecimal amount) {
+
 		UserTransactionHistory transaction = new UserTransactionHistory();
 		transaction.setTransactionAmount(amount);
 		transaction.setDescription("Withdraw: " + "UNKNOWN ORDER");
@@ -116,9 +117,9 @@ public class СreateTransactionsFramework {
 		transaction.setTypeTransaction("WITHDRAW");
 		txTransactionHistoryRepository.save(transaction);
 	}
-	
-	public void getCreditMoneyTransaction (BigDecimal amount, UserBank userBank) {
-		
+
+	public void getCreditMoneyTransaction(BigDecimal amount, UserBank userBank) {
+
 		UserTransactionHistory transaction = new UserTransactionHistory();
 		transaction.setTransactionAmount(amount);
 		transaction.setDescription("Credit: " + "TxBank");
@@ -129,9 +130,9 @@ public class СreateTransactionsFramework {
 		transaction.setTypeTransaction("GET CREDIT");
 		txTransactionHistoryRepository.save(transaction);
 	}
-	
-	public void mistakeCreditMoneyTransaction (BigDecimal amount, UserBank userBank) {
-		
+
+	public void mistakeCreditMoneyTransaction(BigDecimal amount, UserBank userBank) {
+
 		UserTransactionHistory transaction = new UserTransactionHistory();
 		transaction.setTransactionAmount(amount);
 		transaction.setDescription("Credit: " + "TxBank");

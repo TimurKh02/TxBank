@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.txbank.automation.AutomationCardFramework;
 import com.example.txbank.automation.СreateTransactionsFramework;
@@ -123,6 +124,7 @@ public class TxBankServiceImpl implements TxBankService {
 	}
 
 	@Override
+	@Transactional
 	public UserBankTransactionResponse transferMoney(String typePayment, int senderId, Long receiverBankCard,
 			BigDecimal amount, String commentTransaction) {
 
