@@ -43,8 +43,8 @@
 						method...</label> <select class="form-select" id="typePayment"
 							name="typePayment">
 							<option value="1" selected>Available balance</option>
-							<option value="2">Savings account</option>
-							<option value="3">Credit account</option>
+							<option value="2">Savings balance</option>
+							<option value="3">Credit balance</option>
 						</select>
 					</div>
 
@@ -322,7 +322,7 @@
 					</p>
 				</div>
 				<div class="section-one">
-					<h3>Savings account</h3>
+					<h3>Savings balance</h3>
 					<p>
 						<strong><span
 							th:text="${#numbers.formatDecimal(balanceResponse.balanceAccumulative, 1, 2)}"
@@ -330,7 +330,7 @@
 					</p>
 				</div>
 				<div class="section-one">
-					<h3>Credit account</h3>
+					<h3>Credit balance</h3>
 					<p>
 						<strong><span
 							th:text="${#numbers.formatDecimal(balanceResponse.balanceCredit, 1, 2)}"
