@@ -67,26 +67,32 @@ public class MyControllerBank {
 	public String registerUser() {
 		return "register";
 	}
-
+	
 	@PostMapping("/register")
 	public String saveUserBank(@RequestParam String login, @RequestParam String password, @RequestParam String name) {
-		txBankServiceMongo.saveUsersMongo(login, password, name);
-//		txBankSupportService.sendEmailCode(login);
-		return "redirect:/codeVerification?login=" + login;
+		txBankService.saveUser(login, password, name);
+		return "redirect:/login";
 	}
 
-	@GetMapping("/codeVerification")
-	public String sendCodeVerification(Model model, @RequestParam String login) {
-		model.addAttribute("login", login);
-		return "codeVerification";
-	}
-
-	@PostMapping("/codeVerification")
-	public String saveUserBankCodeVerification(@RequestParam String login) {
-//		UserBankInfoMongoDbResponse userResponse = txBankServiceMongo.getUserMongoByLogin(login);
-//		txBankService.saveUser(userResponse.getLogin(), userResponse.getPassword(), userResponse.getName());
-		return "codeVerification";
-	}
+//	@PostMapping("/register")
+//	public String saveUserBank(@RequestParam String login, @RequestParam String password, @RequestParam String name) {
+//		txBankServiceMongo.saveUsersMongo(login, password, name);
+////		txBankSupportService.sendEmailCode(login);
+//		return "redirect:/codeVerification?login=" + login;
+//	}
+//
+//	@GetMapping("/codeVerification")
+//	public String sendCodeVerification(Model model, @RequestParam String login) {
+//		model.addAttribute("login", login);
+//		return "codeVerification";
+//	}
+//
+//	@PostMapping("/codeVerification")
+//	public String saveUserBankCodeVerification(@RequestParam String login) {
+////		UserBankInfoMongoDbResponse userResponse = txBankServiceMongo.getUserMongoByLogin(login);
+////		txBankService.saveUser(userResponse.getLogin(), userResponse.getPassword(), userResponse.getName());
+//		return "codeVerification";
+//	}
 
 	@GetMapping("/myProfile")
 	public String myProfile(Model model) {
