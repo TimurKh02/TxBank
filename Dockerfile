@@ -1,8 +1,9 @@
 FROM openjdk:17-jdk-slim as builder
 WORKDIR /app
 COPY . .
-RUN ./mvnw clean package -DskipTests
 
+RUN chmod +x ./mvnw
+RUN ./mvnw clean package -DskipTests
 
 FROM openjdk:17-jdk-slim
 WORKDIR /app
